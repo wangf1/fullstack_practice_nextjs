@@ -2,8 +2,6 @@ import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <Button variant="default">
-      Click me
-    </Button>
+    <p>This is a authenticated route. Only login user can access.</p>
   )
 }
