@@ -13,6 +13,8 @@ NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
 NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
 
 POSTGRES_URL=your_postgres_url
+
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
 ### Run the development server:
