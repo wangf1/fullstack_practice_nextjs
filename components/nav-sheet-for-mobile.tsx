@@ -23,15 +23,7 @@ export const SheetComponent = () => {
     return (
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger>
-          <Button
-            variant="outline"
-            size="sm"
-            className={`font-normal, be-while/10 hover:bg-white border-none 
-                focus-visible:ring-offset-0 focus-visible:ring-transparent
-                outline-none text-white focus:bg-white/30 transition`}
-          >
-            <Menu className="size-4" />
-          </Button>
+          <Menu className="size-8 text-white" />
         </SheetTrigger>
         <SheetContent side="left" className="px-2">
           <nav className="flex flex-col gap-y-2 pt-6">
