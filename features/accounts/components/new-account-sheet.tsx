@@ -10,6 +10,7 @@ import { useNewAccount } from "../hooks/use-new-account";
 import { AccountForm } from "./account-form";
 import { useCreateAccount } from "../api/use-create-account";
 import { insertAccountSchema } from "@/db/schema";
+import { z } from "zod";
 
 export const NewAccountSheet = () => {
   const { isOpen, onClose } = useNewAccount();
