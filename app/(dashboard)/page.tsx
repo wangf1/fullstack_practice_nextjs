@@ -18,34 +18,17 @@ export default function Home() {
     return <div>Loading...</div>;
   }
 
-  const formSchema = insertAccountSchema.pick({ name: true });
-
-  type FormValues = z.input<typeof formSchema>;
-
-  const onSubmit = (values: FormValues) => {
-    mutaiotn.mutate(values);
-  };
-
   return (
     <>
       <div className="space-y-4">
         {data?.map((account) => (
           <div key={account.id}>{account.name}</div>
         ))}
-        <div>
-          <Button onClick={onOpen} hidden={data && data.length > 0}>
-            Add an Account
-          </Button>
-          {/* The `NewAccountSheet` component is currently very 
-          unstable and fails to render about half the time. For 
-          the sake of development convenience, the form will be 
-          placed directly here. */}
-          <AccountForm
-            onSubmit={onSubmit}
-            disabled={mutaiotn.isPending}
-            defaultValues={{ name: "" }}
-          />
-        </div>
+        {(!!!data || data.length < 1) && (
+          <div>
+            <Button onClick={onOpen}>Add an Account</Button>
+          </div>
+        )}
       </div>
     </>
   );
