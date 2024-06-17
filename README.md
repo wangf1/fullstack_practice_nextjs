@@ -2,7 +2,7 @@ Practice with Next.js by follwoing [this tutorial](https://www.youtube.com/watch
 
 ## Getting Started
 
-F#### Create .env.local in the root of the project.
+### Create .env.local in the root of the project.
 Example file content:
 
 ```
