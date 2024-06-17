@@ -9,14 +9,16 @@ export const NavBar = () => {
 
   return (
     <nav className="hidden lg:flex items-center gap-x-2 overflow-x-auto">
-      {routes.map((route) => (
-        <NavButton
-          key={route.href}
-          href={route.href}
-          label={route.label}
-          isActive={pathname === route.href}
-        ></NavButton>
-      ))}
+      {routes
+        .filter((route) => !route.hidden)
+        .map((route) => (
+          <NavButton
+            key={route.href}
+            href={route.href}
+            label={route.label}
+            isActive={pathname === route.href}
+          ></NavButton>
+        ))}
     </nav>
   );
 };

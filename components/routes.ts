@@ -3,6 +3,7 @@
 export interface Route {
   href: string;
   label: string;
+  hidden?: boolean;
 }
 
 export const routes: Route[] = [
@@ -13,6 +14,7 @@ export const routes: Route[] = [
   {
     href: "/transactions",
     label: "Transactions",
+    hidden: true,
   },
   {
     href: "/accounts",
@@ -21,9 +23,11 @@ export const routes: Route[] = [
   {
     href: "/categories",
     label: "Categories",
+    hidden: true,
   },
   {
     href: "/settings",
     label: "Settings",
+    hidden: true,
   },
 ];

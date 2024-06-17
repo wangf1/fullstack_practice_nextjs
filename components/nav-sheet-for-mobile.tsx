@@ -27,16 +27,18 @@ export const SheetComponent = () => {
         </SheetTrigger>
         <SheetContent side="left" className="px-2">
           <nav className="flex flex-col gap-y-2 pt-6">
-            {routes.map((route) => (
-              <Button
-                variant={route.href === pathname ? "secondary" : "ghost"}
-                key={route.href}
-                onClick={() => onClick(route.href)}
-                className="w-full justify-start"
-              >
-                {route.label}
-              </Button>
-            ))}
+            {routes
+              .filter((route) => !route.hidden)
+              .map((route) => (
+                <Button
+                  variant={route.href === pathname ? "secondary" : "ghost"}
+                  key={route.href}
+                  onClick={() => onClick(route.href)}
+                  className="w-full justify-start"
+                >
+                  {route.label}
+                </Button>
+              ))}
           </nav>
         </SheetContent>
       </Sheet>
