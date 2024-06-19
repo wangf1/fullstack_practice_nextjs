@@ -6,6 +6,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { insertAccountSchema } from "@/db/schema";
+import { useEditAccount } from "@/features/accounts/api/use-edit-account";
 import { useGetAccount } from "@/features/accounts/api/use-get-account";
 import { useOpenAccount } from "@/features/accounts/hooks/use-open-account";
 import { Loader2 } from "lucide-react";
@@ -16,20 +17,20 @@ export const EditAccountSheet = () => {
   const { isOpen, onClose, id } = useOpenAccount();
 
   const accountQuery = useGetAccount(id);
+  const editMutaiotn = useEditAccount(id);
 
-  const isLoading = accountQuery.isLoading;
+  const isPending = editMutaiotn.isPending;
 
   const formSchema = insertAccountSchema.pick({ name: true });
 
   type FormValues = z.input<typeof formSchema>;
 
   const onSubmit = (values: FormValues) => {
-    // TODO - update account
-    // mutaiotn.mutate(values, {
-    //   onSuccess: () => {
-    //     onClose();
-    //   },
-    // });
+    editMutaiotn.mutate(values, {
+      onSuccess: () => {
+        onClose();
+      },
+    });
   };
 
   const defaultValues = accountQuery.data
@@ -44,7 +45,7 @@ export const EditAccountSheet = () => {
             <SheetTitle>Edit Account</SheetTitle>
             <SheetDescription>Edit an existing account.</SheetDescription>
           </SheetHeader>
-          {isLoading ? (
+          {isPending ? (
             <div className="absolute inset-0 flex items-center justify-center">
               <Loader2 className="size-4 text-muted-foreground animate-spin" />
             </div>
@@ -52,7 +53,7 @@ export const EditAccountSheet = () => {
             <AccountForm
               id={id}
               onSubmit={onSubmit}
-              // disabled={mutaiotn.isPending}
+              disabled={isPending}
               defaultValues={defaultValues}
             />
           )}
