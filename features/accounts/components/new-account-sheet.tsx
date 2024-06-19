@@ -4,13 +4,12 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
-import { useNewAccount } from "../hooks/use-new-account";
-import { AccountForm } from "./account-form";
-import { useCreateAccount } from "../api/use-create-account";
 import { insertAccountSchema } from "@/db/schema";
 import { z } from "zod";
+import { useCreateAccount } from "../api/use-create-account";
+import { useNewAccount } from "../hooks/use-new-account";
+import { AccountForm } from "./account-form";
 
 export const NewAccountSheet = () => {
   const { isOpen, onClose } = useNewAccount();
@@ -22,7 +21,11 @@ export const NewAccountSheet = () => {
   type FormValues = z.input<typeof formSchema>;
 
   const onSubmit = (values: FormValues) => {
-    mutaiotn.mutate(values);
+    mutaiotn.mutate(values, {
+      onSuccess: () => {
+        onClose();
+      },
+    });
   };
 
   return (
@@ -32,7 +35,7 @@ export const NewAccountSheet = () => {
           <SheetHeader>
             <SheetTitle>New Account</SheetTitle>
             <SheetDescription>
-              Create a new account to trach your transactions.
+              Create a new account to track your transactions.
             </SheetDescription>
           </SheetHeader>
           <AccountForm

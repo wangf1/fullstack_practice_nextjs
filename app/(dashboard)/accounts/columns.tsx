@@ -1,8 +1,8 @@
 "use client";
 
+import { Actions } from "@/app/(dashboard)/accounts/actions";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
 import { client } from "@/lib/hono";
 import { ColumnDef } from "@tanstack/react-table";
 import { InferResponseType } from "hono";
@@ -46,6 +46,12 @@ export const columns: ColumnDef<ResponseTYpe>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      return <Actions id={row.original.id} />;
     },
   },
 ];
