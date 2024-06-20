@@ -6,9 +6,11 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { insertAccountSchema } from "@/db/schema";
+import { useDeleteAccount } from "@/features/accounts/api/use-delete-account";
 import { useEditAccount } from "@/features/accounts/api/use-edit-account";
 import { useGetAccount } from "@/features/accounts/api/use-get-account";
 import { useOpenAccount } from "@/features/accounts/hooks/use-open-account";
+import { useConfirm } from "@/hooks/use-confirm";
 import { Loader2 } from "lucide-react";
 import { z } from "zod";
 import { AccountForm } from "./account-form";
@@ -18,8 +20,9 @@ export const EditAccountSheet = () => {
 
   const accountQuery = useGetAccount(id);
   const editMutaiotn = useEditAccount(id);
+  const deleteMutaiotn = useDeleteAccount(id);
 
-  const isPending = editMutaiotn.isPending;
+  const isPending = editMutaiotn.isPending || deleteMutaiotn.isPending;
 
   const formSchema = insertAccountSchema.pick({ name: true });
 
@@ -33,12 +36,29 @@ export const EditAccountSheet = () => {
     });
   };
 
+  const onDelete = async () => {
+    const ok = await confirm();
+    if (ok) {
+      deleteMutaiotn.mutate(undefined, {
+        onSuccess: () => {
+          onClose();
+        },
+      });
+    }
+  };
+
+  const [ConfirmDialog, confirm] = useConfirm(
+    "Delete Account",
+    "Are you sure you want to delete this account?"
+  );
+
   const defaultValues = accountQuery.data
     ? { name: accountQuery.data.name }
     : { name: "" };
 
   return (
     <>
+      <ConfirmDialog />
       <Sheet open={isOpen} onOpenChange={onClose}>
         <SheetContent>
           <SheetHeader>
@@ -53,6 +73,7 @@ export const EditAccountSheet = () => {
             <AccountForm
               id={id}
               onSubmit={onSubmit}
+              onDelete={onDelete}
               disabled={isPending}
               defaultValues={defaultValues}
             />

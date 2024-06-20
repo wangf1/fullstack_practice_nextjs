@@ -1,19 +1,18 @@
-import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { insertAccountSchema } from "@/db/schema";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { insertAccountSchema } from "@/db/schema";
 
 const formSchema = insertAccountSchema.pick({ name: true });
 
@@ -72,7 +71,7 @@ export const AccountForm = ({
         <Button className="w-full" disabled={disabled}>
           {id ? "Save change" : "Create account"}
         </Button>
-        {!id && (
+        {!!id && (
           <Button
             type="button"
             disabled={disabled}
