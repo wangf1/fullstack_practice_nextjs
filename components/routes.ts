@@ -23,7 +23,6 @@ export const routes: Route[] = [
   {
     href: "/categories",
     label: "Categories",
-    hidden: true,
   },
   {
     href: "/settings",

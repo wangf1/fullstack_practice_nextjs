@@ -1,0 +1,32 @@
+import { client } from "@/lib/hono";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { InferRequestType, InferResponseType } from "hono";
+import { toast } from "sonner";
+
+type ResponseType = InferResponseType<
+  (typeof client.api.categories)["bulk-delete"]["$post"]
+>;
+type RequestType = InferRequestType<
+  (typeof client.api.categories)["bulk-delete"]["$post"]
+>["json"];
+
+export const useBulkDeleteCategory = () => {
+  const queryClient = useQueryClient();
+  const mutaiton = useMutation<ResponseType, Error, RequestType>({
+    mutationFn: async (json) => {
+      const response = await client.api.categories["bulk-delete"].$post({
+        json,
+      });
+      return await response.json();
+    },
+    onSuccess: () => {
+      toast.success("Categories deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+      //TODO: also invalidate summary
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+  return mutaiton;
+};
