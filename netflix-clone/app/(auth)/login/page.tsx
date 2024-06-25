@@ -1,11 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import Image from "next/image";
-import GithubIcon from "@/public/images/github.svg";
-import GoogleIcon from "@/public/images/google.svg";
 
-export default function Login() {
+import GithubSigninButton from "@/app/components/GithubSigninButton";
+import GoogleSigninButton from "@/app/components/GoogleSigninButton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/utils/auth";
+import { redirect } from "next/navigation";
+
+export default async function Login() {
+  const session = await getServerSession(authOptions);
+
+  if (session) {
+    return redirect("/home");
+  }
+
   return (
     <div className="mt-24 bg-black/70 rounded py-10 px-6 md:mt-0 md:max-w-sm md:px-14">
       <form action="">
@@ -26,18 +35,8 @@ export default function Login() {
       </div>
 
       <div className="flex w-full justify-center items-center gap-x-3 mt-6">
-        <Button variant="outline" size="icon">
-          <Image
-            src={GithubIcon}
-            alt="github logo"
-            width={24}
-            height={24}
-            className="bg-gray-300 rounded-full"
-          />
-        </Button>
-        <Button variant="outline" size="icon">
-          <Image src={GoogleIcon} alt="google logo" width={24} height={24} />
-        </Button>
+        <GithubSigninButton />
+        <GoogleSigninButton />
       </div>
     </div>
   );

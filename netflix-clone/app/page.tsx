@@ -1,12 +1,13 @@
-import { Button } from "@/components/ui/button";
+import { authOptions } from "@/app/utils/auth";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  return (
-    <>
-      <div>
-        <Button>hello</Button>
-        <h1>Hello from index page</h1>
-      </div>
-    </>
-  );
+export default async function Home() {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return redirect("/login");
+  } else {
+    return redirect("/home");
+  }
 }

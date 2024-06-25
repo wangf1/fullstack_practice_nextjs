@@ -1,11 +1,19 @@
+import { authOptions } from "@/app/utils/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import Image from "next/image";
 import GithubIcon from "@/public/images/github.svg";
 import GoogleIcon from "@/public/images/google.svg";
+import { getServerSession } from "next-auth";
+import Image from "next/image";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function SignUp() {
+export default async function SignUp() {
+  const session = await getServerSession(authOptions);
+  if (session) {
+    return redirect("/home");
+  }
+
   return (
     <div className="mt-24 bg-black/70 rounded py-10 px-6 md:mt-0 md:max-w-sm md:px-14">
       <form action="">
@@ -32,17 +40,11 @@ export default function SignUp() {
             alt="github logo"
             width={24}
             height={24}
-            className="bg-gray-300"
+            className="bg-gray-300 rounded-full"
           />
         </Button>
         <Button variant="outline" size="icon">
-          <Image
-            src={GoogleIcon}
-            alt="google logo"
-            width={24}
-            height={24}
-            className="bg-[#4285F4] "
-          />
+          <Image src={GoogleIcon} alt="google logo" width={24} height={24} />
         </Button>
       </div>
     </div>

@@ -1,3 +1,4 @@
+import { NextAuthProvider } from "@/app/components/NextAuthProvider";
 import { ThemeProvider } from "@/components/theme-provider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -18,15 +19,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {" "}
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <NextAuthProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );
